@@ -26,7 +26,7 @@ file(GLOB NET_SOURCE_FILES 			./*.cpp)
 source_group("Source Files" 			FILES ${NET_SOURCE_FILES})
 
 source_group("Header Files" 			FILES ${ROOT_HEADER_FILES})
-source_group("Header Files\\ppxnet"     FILES ${NET_HEADER_FILES})
+source_group("Header Files/ppxnet"     FILES ${NET_HEADER_FILES})
 
 set(_LINK_LIBRARYS "")
 
@@ -48,8 +48,8 @@ if(BUILD_SHARED_LIBS)
 						OUTPUT_NAME ${LIB_NAME} )
 						
 	target_link_libraries(${LIB_NAME} PUBLIC 
-		debug ${PPXBASE_INSTALL_DIR}/lib/Debug/ppxbase.lib
-		optimized ${PPXBASE_INSTALL_DIR}/lib/Release/ppxbase.lib)
+		debug ${PPXBASE_INSTALL_DIR}/lib/ppxbase-d.lib
+		optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase.lib)
 else()
 	add_definitions(-DPPXNET_STATIC -DPPXBASE_STATIC -DCURL_STATICLIB)
 	
@@ -66,10 +66,12 @@ else()
 		OUTPUT_NAME ${LIB_NAME}${STATIC_LIBNAME_SUFFIX})
 		
 	target_link_libraries(${LIB_NAME} PUBLIC 
-		debug ${PPXBASE_INSTALL_DIR}/lib/Debug/ppxbase-static.lib
-		optimized ${PPXBASE_INSTALL_DIR}/lib/Release/ppxbase-static.lib)
+		debug ${PPXBASE_INSTALL_DIR}/lib/ppxbase-static-d.lib
+		optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase-static.lib)
 endif()
 
+set_target_properties (${LIB_NAME} PROPERTIES 
+	DEBUG_POSTFIX ${DEBUG_LIBNAME_SUFFIX})
 
 find_package(CURL REQUIRED)
 
