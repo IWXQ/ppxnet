@@ -76,7 +76,7 @@ target_include_directories(${LIB_NAME} PUBLIC ${CURL_INCLUDE_DIRS})
 
 # PPXBASE
 if (PPXBASE_INSTALL_DIR STREQUAL "")
-	message(STATUS "do find_package(PPXBASE REQUIRED)")
+
 	find_package(ppxbase REQUIRED)
 
 	message(STATUS "PPXBASE_LIBRARIES=${PPXBASE_LIBRARIES}")
