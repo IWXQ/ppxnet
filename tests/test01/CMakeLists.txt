@@ -15,9 +15,10 @@ if (MSVC AND USE_STATIC_CRT)
     endforeach()
 endif()
 
+
 if (NOT BUILD_SHARED_LIBS)
-	# Use ppx static library
-	add_definitions(-DPPX_STATIC)
+	# Use ppxnet static library
+	add_definitions(-DPPXNET_STATIC)
 endif()
 
 add_executable(
@@ -26,28 +27,19 @@ add_executable(
 	main.cpp
 	)
 	
+	message(STATUS "PPXBASE_LIBRARIES=${PPXBASE_LIBRARIES}")
+	message(STATUS "PPXBASE_INCLUDE_DIRS=${PPXBASE_INCLUDE_DIRS}")
 # Win32 Console
 set_target_properties(${EXE_NAME} PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE")
 set_target_properties(${EXE_NAME} PROPERTIES COMPILE_DEFINITIONS "_CONSOLE")
 
+target_include_directories(${EXE_NAME} PUBLIC ${PPXBASE_INCLUDE_DIRS})
 
 if(BUILD_SHARED_LIBS)
 	target_link_libraries(${EXE_NAME} 
 		$<TARGET_LINKER_FILE:ppxnet> )
-		
-	# target_link_libraries(${EXE_NAME} 
-		# debug ${PPXBASE_INSTALL_DIR}/lib/Debug/ppxbase.lib
-		# optimized ${PPXBASE_INSTALL_DIR}/lib/Release/ppxbase.lib)
 else()
-	get_property(PPX_LINK_LIBRARYS GLOBAL PROPERTY "PPX_LINK_LIBRARYS" ) 
-
 	target_link_libraries(${EXE_NAME} 
-		$<TARGET_LINKER_FILE:ppxnet> ${PPX_LINK_LIBRARYS})
-		
-	# target_link_libraries(${LIB_NAME} 
-		# debug ${PPXBASE_INSTALL_DIR}/lib/Debug/ppxbase-static.lib
-		# optimized ${PPXBASE_INSTALL_DIR}/lib/Release/ppxbase-static.lib)
-
-	# target_link_directories(${EXE_NAME} PRIVATE ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib)
+		$<TARGET_LINKER_FILE:ppxnet>)
 endif()
 

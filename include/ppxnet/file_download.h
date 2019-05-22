@@ -16,10 +16,6 @@
 #define PPX_NET_FILE_DOWNLOAD_H_
 #pragma once
 
-#include "ppx_config.h"
-
-#ifndef PPX_NO_HTTP
-
 #include <string>
 #include <thread>
 #include <vector>
@@ -68,7 +64,5 @@ namespace ppx {
         };
     }
 }
-
-#endif //!PPX_NO_HTTP
 
 #endif // !PPX_NET_FILE_DOWNLOAD_H_
