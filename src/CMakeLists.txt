@@ -109,7 +109,6 @@ install(TARGETS ${LIB_NAME}
 
 export(TARGETS ${LIB_NAME}
        APPEND FILE ${PROJECT_BINARY_DIR}/ppxnet-target.cmake
-       NAMESPACE PPXNET::
 )
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../CMake/ppxnet-config.cmake 
