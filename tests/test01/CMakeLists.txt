@@ -35,18 +35,18 @@ if(BUILD_SHARED_LIBS)
 	target_link_libraries(${EXE_NAME} 
 		$<TARGET_LINKER_FILE:ppxnet> )
 		
-	target_link_libraries(${EXE_NAME} 
-		debug ${PPXBASE_INSTALL_DIR}/lib/Debug/ppxbase.lib
-		optimized ${PPXBASE_INSTALL_DIR}/lib/Release/ppxbase.lib)
+	# target_link_libraries(${EXE_NAME} 
+		# debug ${PPXBASE_INSTALL_DIR}/lib/Debug/ppxbase.lib
+		# optimized ${PPXBASE_INSTALL_DIR}/lib/Release/ppxbase.lib)
 else()
 	get_property(PPX_LINK_LIBRARYS GLOBAL PROPERTY "PPX_LINK_LIBRARYS" ) 
 
 	target_link_libraries(${EXE_NAME} 
 		$<TARGET_LINKER_FILE:ppxnet> ${PPX_LINK_LIBRARYS})
 		
-	target_link_libraries(${LIB_NAME} 
-		debug ${PPXBASE_INSTALL_DIR}/lib/Debug/ppxbase-static.lib
-		optimized ${PPXBASE_INSTALL_DIR}/lib/Release/ppxbase-static.lib)
+	# target_link_libraries(${LIB_NAME} 
+		# debug ${PPXBASE_INSTALL_DIR}/lib/Debug/ppxbase-static.lib
+		# optimized ${PPXBASE_INSTALL_DIR}/lib/Release/ppxbase-static.lib)
 
 	# target_link_directories(${EXE_NAME} PRIVATE ${_VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib)
 endif()
