@@ -144,39 +144,39 @@ namespace ppx {
             int ipv6_flags_;
         };
 
-        bool IPFromAddrInfo(struct addrinfo *info, IPAddress *out);
-        bool IPFromString(const std::string &str, IPAddress *out);
-        bool IPFromString(const std::string &str, int flags,
+		PPXNET_API bool IPFromAddrInfo(struct addrinfo *info, IPAddress *out);
+		PPXNET_API bool IPFromString(const std::string &str, IPAddress *out);
+		PPXNET_API bool IPFromString(const std::string &str, int flags,
             InterfaceAddress *out);
-        bool IPIsAny(const IPAddress &ip);
-        bool IPIsLoopback(const IPAddress &ip);
-        bool IPIsPrivate(const IPAddress &ip);
-        bool IPIsUnspec(const IPAddress &ip);
-        size_t HashIP(const IPAddress &ip);
+		PPXNET_API bool IPIsAny(const IPAddress &ip);
+		PPXNET_API bool IPIsLoopback(const IPAddress &ip);
+		PPXNET_API bool IPIsPrivate(const IPAddress &ip);
+		PPXNET_API bool IPIsUnspec(const IPAddress &ip);
+		PPXNET_API size_t HashIP(const IPAddress &ip);
 
         // These are only really applicable for IPv6 addresses.
-        bool IPIs6Bone(const IPAddress &ip);
-        bool IPIs6To4(const IPAddress &ip);
-        bool IPIsLinkLocal(const IPAddress &ip);
-        bool IPIsMacBased(const IPAddress &ip);
-        bool IPIsSiteLocal(const IPAddress &ip);
-        bool IPIsTeredo(const IPAddress &ip);
-        bool IPIsULA(const IPAddress &ip);
-        bool IPIsV4Compatibility(const IPAddress &ip);
-        bool IPIsV4Mapped(const IPAddress &ip);
+		PPXNET_API bool IPIs6Bone(const IPAddress &ip);
+		PPXNET_API bool IPIs6To4(const IPAddress &ip);
+		PPXNET_API bool IPIsLinkLocal(const IPAddress &ip);
+		PPXNET_API bool IPIsMacBased(const IPAddress &ip);
+		PPXNET_API bool IPIsSiteLocal(const IPAddress &ip);
+		PPXNET_API bool IPIsTeredo(const IPAddress &ip);
+		PPXNET_API bool IPIsULA(const IPAddress &ip);
+		PPXNET_API bool IPIsV4Compatibility(const IPAddress &ip);
+		PPXNET_API bool IPIsV4Mapped(const IPAddress &ip);
 
         // Returns the precedence value for this IP as given in RFC3484.
-        int IPAddressPrecedence(const IPAddress &ip);
+		PPXNET_API int IPAddressPrecedence(const IPAddress &ip);
 
         // Returns 'ip' truncated to be 'length' bits long.
-        IPAddress TruncateIP(const IPAddress &ip, int length);
+		PPXNET_API IPAddress TruncateIP(const IPAddress &ip, int length);
 
-        IPAddress GetLoopbackIP(int family);
-        IPAddress GetAnyIP(int family);
+		PPXNET_API IPAddress GetLoopbackIP(int family);
+		PPXNET_API IPAddress GetAnyIP(int family);
 
         // Returns the number of contiguously set bits, counting from the MSB in network
         // byte order, in this IPAddress. Bits after the first 0 encountered are not counted.
-        int CountIPMaskBits(IPAddress mask);
+		PPXNET_API int CountIPMaskBits(IPAddress mask);
     }
 }
 

@@ -200,9 +200,9 @@ namespace ppx {
             bool literal_;  // Indicates that 'hostname_' contains a literal IP string.
         };
 
-        bool SocketAddressFromSockAddrStorage(const sockaddr_storage &saddr,
+		PPXNET_API bool SocketAddressFromSockAddrStorage(const sockaddr_storage &saddr,
                                               SocketAddress *out);
-        SocketAddress EmptySocketAddressWithFamily(int family);
+		PPXNET_API SocketAddress EmptySocketAddressWithFamily(int family);
     }
 }
 
