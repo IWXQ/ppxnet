@@ -42,6 +42,12 @@ if(BUILD_SHARED_LIBS)
 		${NET_HEADER_FILES}
 	)
 	
+	if (NOT PPXBASE_INSTALL_DIR STREQUAL "")	
+		target_link_libraries(${LIB_NAME} PUBLIC 
+			debug ${PPXBASE_INSTALL_DIR}/lib/ppxbase-d.lib
+			optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase.lib)
+	endif()
+	
 	# set output name prefix/suffix
 	set_target_properties(${LIB_NAME} PROPERTIES 
 						OUTPUT_NAME ${LIB_NAME} )
@@ -56,6 +62,12 @@ else()
 		${ROOT_HEADER_FILES}
 		${NET_HEADER_FILES}
 	)
+	
+	if (NOT PPXBASE_INSTALL_DIR STREQUAL "")	
+		target_link_libraries(${LIB_NAME} PUBLIC 
+			debug ${PPXBASE_INSTALL_DIR}/lib/ppxbase-static-d.lib
+			optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase-static.lib)
+	endif()
 	
 	# set output name prefix/suffix
     set_target_properties(${LIB_NAME} PROPERTIES 
@@ -86,8 +98,7 @@ if (PPXBASE_INSTALL_DIR STREQUAL "")
 	target_include_directories(${LIB_NAME} PUBLIC ${PPXBASE_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(${LIB_NAME} PUBLIC 
-	Ws2_32.lib Iphlpapi.lib Userenv.lib Dbghelp.lib)
+target_link_libraries(${LIB_NAME} PUBLIC Ws2_32.lib Crypt32.lib)
 
 
 # Set output directory
@@ -101,7 +112,7 @@ target_include_directories(${LIB_NAME} INTERFACE
 	$<INSTALL_INTERFACE:include>)
 
 install(TARGETS ${LIB_NAME}
-	EXPORT ppxnet-target
+	EXPORT ppxnet
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib)
@@ -114,7 +125,7 @@ export(TARGETS ${LIB_NAME}
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../CMake/ppxnet-config.cmake 
 	DESTINATION ${PPXNET_INSTALL_CMAKE_DIR})
 
-install(EXPORT ppxnet-target
+install(EXPORT ppxnet
         FILE ppxnet-target.cmake
         DESTINATION ${PPXNET_INSTALL_CMAKE_DIR}
 )

@@ -44,9 +44,11 @@ message(STATUS "CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}")
 
 set(STATIC_LIBNAME_SUFFIX "-static" 
 	CACHE STRING "Optional suffix to append to the library name for a static build")
-	
+mark_as_advanced(STATIC_LIBNAME_SUFFIX)
+
 set(DEBUG_LIBNAME_SUFFIX "-d" 
 	CACHE STRING "Optional suffix to append to the library name for a debug build")
+mark_as_advanced(DEBUG_LIBNAME_SUFFIX)
 
 # Unicode Support
 add_definitions(-DUNICODE -D_UNICODE -DNOMINMAX)

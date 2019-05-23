@@ -18,7 +18,7 @@ endif()
 
 if (NOT BUILD_SHARED_LIBS)
 	# Use ppxnet static library
-	add_definitions(-DPPXNET_STATIC)
+	add_definitions(-DPPXNET_STATIC -DPPXBASE_STATIC -DCURL_STATICLIB)
 endif()
 
 add_executable(
@@ -27,19 +27,38 @@ add_executable(
 	main.cpp
 	)
 	
-	message(STATUS "PPXBASE_LIBRARIES=${PPXBASE_LIBRARIES}")
-	message(STATUS "PPXBASE_INCLUDE_DIRS=${PPXBASE_INCLUDE_DIRS}")
 # Win32 Console
 set_target_properties(${EXE_NAME} PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE")
 set_target_properties(${EXE_NAME} PROPERTIES COMPILE_DEFINITIONS "_CONSOLE")
 
-target_include_directories(${EXE_NAME} PUBLIC ${PPXBASE_INCLUDE_DIRS})
-
 if(BUILD_SHARED_LIBS)
 	target_link_libraries(${EXE_NAME} 
-		$<TARGET_LINKER_FILE:ppxnet> )
-else()
-	target_link_libraries(${EXE_NAME} 
 		$<TARGET_LINKER_FILE:ppxnet>)
+	if (NOT PPXBASE_INSTALL_DIR STREQUAL "")	
+		target_link_libraries(${EXE_NAME} 
+			debug ${PPXBASE_INSTALL_DIR}/lib/ppxbase-d.lib
+			optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase.lib)
+	endif()
+else()
+	target_link_libraries(${EXE_NAME} $<TARGET_LINKER_FILE:ppxnet>)
+	
+	# CURL
+	find_package(CURL REQUIRED)
+	target_link_libraries(${EXE_NAME} ${CURL_LIBRARIES})
+	
+	find_package(ZLIB REQUIRED)
+    target_link_libraries(${EXE_NAME} ZLIB::ZLIB)
+	
+	find_package(OpenSSL REQUIRED)
+    target_link_libraries(${EXE_NAME} OpenSSL::SSL OpenSSL::Crypto)
+	
+	target_link_libraries(${EXE_NAME} Ws2_32.lib Crypt32.lib)
+
+
+	if (NOT PPXBASE_INSTALL_DIR STREQUAL "")	
+		target_link_libraries(${EXE_NAME} 
+			debug ${PPXBASE_INSTALL_DIR}/lib/ppxbase-static-d.lib
+			optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase-static.lib)
+	endif()
 endif()
 
