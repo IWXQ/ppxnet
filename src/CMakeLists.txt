@@ -1,4 +1,8 @@
-set(LIB_NAME ppxnet)
+if(BUILD_SHARED_LIBS)
+	set(LIB_NAME ppxnet)
+else()
+	set(LIB_NAME ppxnet-static)
+endif()
 
 
 if (MSVC AND USE_STATIC_CRT)
@@ -42,17 +46,12 @@ if(BUILD_SHARED_LIBS)
 		${NET_HEADER_FILES}
 	)
 	
-	if (NOT PPXBASE_INSTALL_DIR STREQUAL "")	
-		target_link_libraries(${LIB_NAME} PUBLIC 
-			debug ${PPXBASE_INSTALL_DIR}/lib/ppxbase-d.lib
-			optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase.lib)
-	endif()
-	
 	# set output name prefix/suffix
 	set_target_properties(${LIB_NAME} PROPERTIES 
-						OUTPUT_NAME ${LIB_NAME} )
+		OUTPUT_NAME ${LIB_NAME}
+		DEBUG_OUTPUT_NAME ${LIB_NAME}${DEBUG_LIBNAME_SUFFIX})
 else()
-	add_definitions(-DPPXNET_STATIC -DPPXBASE_STATIC -DCURL_STATICLIB)
+	add_definitions(-DPPXNET_STATIC)
 	set(PPXNET_STATIC YES)
 	
 	add_library(
@@ -63,42 +62,37 @@ else()
 		${NET_HEADER_FILES}
 	)
 	
-	if (NOT PPXBASE_INSTALL_DIR STREQUAL "")	
-		target_link_libraries(${LIB_NAME} PUBLIC 
-			debug ${PPXBASE_INSTALL_DIR}/lib/ppxbase-static-d.lib
-			optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase-static.lib)
-	endif()
-	
 	# set output name prefix/suffix
     set_target_properties(${LIB_NAME} PROPERTIES 
-		OUTPUT_NAME ${LIB_NAME}${STATIC_LIBNAME_SUFFIX})
+		OUTPUT_NAME ${LIB_NAME}
+		DEBUG_OUTPUT_NAME ${LIB_NAME}${DEBUG_LIBNAME_SUFFIX})
 		
 	set_target_properties(${LIB_NAME} PROPERTIES 
 		INTERFACE_COMPILE_DEFINITIONS PPXNET_STATIC)
 endif()
 
-set_target_properties (${LIB_NAME} PROPERTIES 
-	DEBUG_POSTFIX ${DEBUG_LIBNAME_SUFFIX})
 
 # CURL
 find_package(CURL REQUIRED)
-target_link_libraries(${LIB_NAME} PUBLIC ${CURL_LIBRARIES})
-target_include_directories(${LIB_NAME} PUBLIC ${CURL_INCLUDE_DIRS})
+target_link_libraries(${LIB_NAME} PUBLIC 
+	${CURL_LIBRARIES})
+target_include_directories(${LIB_NAME} PUBLIC 
+	${CURL_INCLUDE_DIRS})
 
 
 # PPXBASE
-if (PPXBASE_INSTALL_DIR STREQUAL "")
-
-	find_package(ppxbase REQUIRED)
-
-	message(STATUS "PPXBASE_LIBRARIES=${PPXBASE_LIBRARIES}")
-	message(STATUS "PPXBASE_INCLUDE_DIRS=${PPXBASE_INCLUDE_DIRS}")
-
-	target_link_libraries(${LIB_NAME} PUBLIC ${PPXBASE_LIBRARIES})
-	target_include_directories(${LIB_NAME} PUBLIC ${PPXBASE_INCLUDE_DIRS})
+find_package(ppxbase REQUIRED)
+if(BUILD_SHARED_LIBS)
+	target_link_libraries(${LIB_NAME} PUBLIC 
+		ppxbase)
+else()
+	target_link_libraries(${LIB_NAME} PUBLIC 
+		ppxbase-static)
 endif()
 
-target_link_libraries(${LIB_NAME} PUBLIC Ws2_32.lib Crypt32.lib)
+
+target_link_libraries(${LIB_NAME} PUBLIC 
+	Ws2_32.lib Crypt32.lib)
 
 
 # Set output directory
@@ -112,25 +106,27 @@ target_include_directories(${LIB_NAME} INTERFACE
 	$<INSTALL_INTERFACE:include>)
 
 install(TARGETS ${LIB_NAME}
-	EXPORT ppxnet
+	EXPORT ${LIB_NAME}-target
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib)
 
 
-export(TARGETS ${LIB_NAME}
-       APPEND FILE ${PROJECT_BINARY_DIR}/ppxnet-target.cmake
-)
+install(FILES ${ROOT_HEADER_FILES} 			DESTINATION include)
+install(FILES ${NET_HEADER_FILES} 			DESTINATION include/ppxnet)
+
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../CMake/ppxnet-config.cmake 
 	DESTINATION ${PPXNET_INSTALL_CMAKE_DIR})
 
-install(EXPORT ppxnet
-        FILE ppxnet-target.cmake
+export(TARGETS ${LIB_NAME}
+       APPEND FILE ${PROJECT_BINARY_DIR}/${LIB_NAME}-target.cmake
+)
+
+install(EXPORT ${LIB_NAME}-target
+        FILE ${LIB_NAME}-target.cmake
         DESTINATION ${PPXNET_INSTALL_CMAKE_DIR}
 )
 	
 
-install(FILES ${ROOT_HEADER_FILES} 			DESTINATION include)
-install(FILES ${NET_HEADER_FILES} 			DESTINATION include/ppxnet)
 
