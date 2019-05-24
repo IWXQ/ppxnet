@@ -40,7 +40,7 @@ if(BUILD_SHARED_LIBS)
 			optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase.lib)
 	endif()
 else()
-	target_link_libraries(${EXE_NAME} $<TARGET_LINKER_FILE:ppxnet>)
+	target_link_libraries(${EXE_NAME} $<TARGET_LINKER_FILE:ppxnet-static>)
 	
 	# CURL
 	find_package(CURL REQUIRED)
