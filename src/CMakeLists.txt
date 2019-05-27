@@ -94,7 +94,6 @@ endif()
 target_link_libraries(${LIB_NAME} PUBLIC 
 	Ws2_32.lib Crypt32.lib)
 
-
 # Set output directory
 set_target_properties(${LIB_NAME}
 	PROPERTIES

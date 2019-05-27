@@ -43,7 +43,7 @@ namespace ppx {
 
             void TransferProgress(int64_t &total, int64_t& transfered) override;
 
-            bool Start() override;
+            bool Start(bool asyn = true) override;
             void Stop() override;
 
             void SetInterruptionResuming(bool b);

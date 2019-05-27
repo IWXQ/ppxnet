@@ -49,11 +49,11 @@ int main() {
     fileDownload.SetInterruptionResuming(interruption_resuming);
     fileDownload.SetStatusCallback(std::bind(StatusCB, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     fileDownload.SetProgressCallback(std::bind(ProgressCB, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    fileDownload.Start();
+    fileDownload.Start(false);
 
-    while ( !over ) {
-        Sleep(100);
-    }
+    //while ( !over ) {
+    //    Sleep(100);
+    //}
 
     if ( g_state == ppx::net::FileTransferBase::Status::Finished ) {
         PPX_LOG(LS_INFO) << "**** [" << url << "] OK";

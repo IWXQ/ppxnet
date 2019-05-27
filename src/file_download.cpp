@@ -240,7 +240,7 @@ namespace ppx {
             total = total_value;
         }
 
-        bool FileDownload::Start() {
+        bool FileDownload::Start(bool asyn /*= true*/) {
             if (GetStatus() == Progress || thread_num_ < 1 ||
                 file_dir_.length() == 0 || file_name_.length() == 0 || url_.length() == 0) {
                 return false;
@@ -335,6 +335,10 @@ namespace ppx {
             if (data_->work_thread_.joinable())
 				data_->work_thread_.join();
 			data_->work_thread_ = std::thread(&FileDownload::WorkLoop, this);
+			if (!asyn) {
+				if (data_->work_thread_.joinable())
+					data_->work_thread_.join();
+			}
             return true;
         }
 

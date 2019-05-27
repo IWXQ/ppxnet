@@ -70,7 +70,7 @@ namespace ppx {
 
             virtual void TransferProgress(int64_t &total, int64_t& transfered) = 0;
 
-            virtual bool Start() = 0;
+            virtual bool Start(bool asyn = true) = 0;
             virtual void Stop() = 0;
 
 			Status GetStatus() const;

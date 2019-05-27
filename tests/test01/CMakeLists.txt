@@ -34,11 +34,9 @@ set_target_properties(${EXE_NAME} PROPERTIES COMPILE_DEFINITIONS "_CONSOLE")
 if(BUILD_SHARED_LIBS)
 	target_link_libraries(${EXE_NAME} 
 		$<TARGET_LINKER_FILE:ppxnet>)
-	if (NOT PPXBASE_INSTALL_DIR STREQUAL "")	
-		target_link_libraries(${EXE_NAME} 
-			debug ${PPXBASE_INSTALL_DIR}/lib/ppxbase-d.lib
-			optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase.lib)
-	endif()
+	
+	find_package(ppxbase REQUIRED)
+    target_link_libraries(${EXE_NAME} ppxbase)
 else()
 	target_link_libraries(${EXE_NAME} $<TARGET_LINKER_FILE:ppxnet-static>)
 	
@@ -55,10 +53,7 @@ else()
 	target_link_libraries(${EXE_NAME} Ws2_32.lib Crypt32.lib)
 
 
-	if (NOT PPXBASE_INSTALL_DIR STREQUAL "")	
-		target_link_libraries(${EXE_NAME} 
-			debug ${PPXBASE_INSTALL_DIR}/lib/ppxbase-static-d.lib
-			optimized ${PPXBASE_INSTALL_DIR}/lib/ppxbase-static.lib)
-	endif()
+	find_package(ppxbase REQUIRED)
+    target_link_libraries(${EXE_NAME} ppxbase-static)
 endif()
 
