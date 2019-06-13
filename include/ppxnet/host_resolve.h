@@ -30,7 +30,7 @@ namespace ppx {
             HostResolve();
             virtual~HostResolve();
 
-            bool AsyncResolve(const std::string &host, std::function<void(const std::vector<IPAddress>&)> callback);
+            bool Resolve(const std::string &host, std::vector<IPAddress>& ip_list);
 
         private:
             void DoResolve(const std::string &host, std::function<void(const std::vector<IPAddress>&)> callback);
