@@ -46,12 +46,15 @@ set_target_properties(${EXE_NAME} PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE")
 set_target_properties(${EXE_NAME} PROPERTIES COMPILE_DEFINITIONS "_CONSOLE")
 
 if(BUILD_SHARED_LIBS)
+	add_dependencies(${EXE_NAME} ppxnet)
+	
 	target_link_libraries(${EXE_NAME} 
 		$<TARGET_LINKER_FILE:ppxnet>)
 	
 	find_package(ppxbase REQUIRED)
     target_link_libraries(${EXE_NAME} ppxbase)
 else()
+	add_dependencies(${EXE_NAME} ppxnet-static)
 	target_link_libraries(${EXE_NAME} $<TARGET_LINKER_FILE:ppxnet-static>)
 	
 	# CURL
