@@ -4,6 +4,7 @@
 #include <atomic>
 #include <iostream>
 
+
 using namespace ppx;
 
 std::atomic<bool> over;
@@ -31,7 +32,55 @@ void ProgressCB(std::string filePath, int64_t total, int64_t transfered) {
     }
 }
 
+
+void UploadSteambox() {
+
+
+	std::string post_data = "{ \
+		\"action\" : \"1\", \
+		\"channel\" : \"front\", \
+		\"ctype\" : 1, \
+		\"cuid\" : \"234159078117238084\", \
+		\"data\" : \"{\"ver\":\"2.1.0.1\",\"source\":\"auto_start\"}\"}";
+
+	std::thread s = std::thread([post_data]() {
+		net::HttpRequest request;
+		base::BufferQueue rsp;
+		request.SetConnectTimeoutMS(2000);
+		request.SetReadTimeoutMS(1000);
+		std::vector<std::string> headers;
+		headers.push_back("Content-Type: application/json");
+
+		int retry = 0;
+		while (++retry <= 3) {
+			int ret = request.Post("https://api.steamboxs.com/api/clientInfo", post_data.c_str(), post_data.length(), rsp, &headers);
+
+			char* pRsp = NULL;
+			int64_t rspLen = rsp.ToOneBuffer(&pRsp);
+			if (rspLen < 0) {
+				return;
+			}
+
+			std::string strRsp;
+			strRsp.assign(pRsp, rspLen);
+
+			free(pRsp);
+
+			PPX_LOG(LS_INFO) << "Behavior UploadSteambox, post_data=" << post_data << ", rsp=" << strRsp;
+			if (ret == 0)
+				break;
+		}
+	});
+	s.detach();
+}
+
+
 int main() {
+	UploadSteambox();
+	UploadSteambox();
+	UploadSteambox();
+	getchar();
+
     int thread_num = 10;
     bool interruption_resuming =  true ;
     std::string url = "https://dl.360safe.com/se/360se_setup.exe";
