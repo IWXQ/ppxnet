@@ -93,6 +93,8 @@ target_link_libraries(${LIB_NAME} PUBLIC
 target_include_directories(${LIB_NAME} PUBLIC 
 	${CURL_INCLUDE_DIRS})
 
+find_package(OpenSSL REQUIRED)
+target_link_libraries(${LIB_NAME} PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
 # PPXBASE
 find_package(ppxbase REQUIRED)
