@@ -85,6 +85,6 @@ if "" == "%BUILD_SHARED_LIBS%" (
 vcpkg install curl[openssl]:%VCPKG_TARGET_TRIPLET%
 vcpkg install gtest:%VCPKG_TARGET_TRIPLET%
 
-cmake.exe -G "Visual Studio 14" -DCMAKE_TOOLCHAIN_FILE=D:\sourcecode\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=%VCPKG_TARGET_TRIPLET% -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS% -Dppxbase_DIR=%PPXBASE_DIR% -DCMAKE_INSTALL_PREFIX=D:\ppxnet -DBUILD_TESTS=ON -S %~dp0 -B %~dp0build
+cmake.exe -G "Visual Studio 15 2017" -DCMAKE_TOOLCHAIN_FILE=D:\sourcecode\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=%VCPKG_TARGET_TRIPLET% -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS% -Dppxbase_DIR=%PPXBASE_DIR% -DCMAKE_INSTALL_PREFIX=D:\ppxnet -DBUILD_TESTS=ON -S %~dp0 -B %~dp0build
 endlocal
 goto :eof

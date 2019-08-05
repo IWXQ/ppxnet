@@ -280,7 +280,7 @@ namespace ppx {
                 std::string name = tmp_filename_;
 
                 while ( _taccess(base::Utf8ToUnicode(file_dir_ + name + tmp_fileext_).c_str(), 0) == 0) {
-                    name = tmp_filename_ + "(" + std::to_string((_Longlong)index++) + ")";
+                    name = tmp_filename_ + "(" + std::to_string((long long)index++) + ")";
                 }
 
                 tmp_filename_ = name;
@@ -918,7 +918,7 @@ namespace ppx {
             std::string name = file_name_;
 
             while ( _taccess(base::Utf8ToUnicode(file_dir_ + name + file_ext_).c_str(), 0) == 0) {
-                name = file_name_ + "(" + std::to_string((_Longlong)index++) + ")";
+                name = file_name_ + "(" + std::to_string((long long)index++) + ")";
             }
 
             file_name_ = name;
