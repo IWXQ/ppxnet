@@ -19,17 +19,7 @@
 #include "ppxnet/global_env.h"
 #include "ppxnet/file_transfer_base.h"
 #include "ppxnet/file_download.h"
-#include "ppxnet/host_resolve.h"
 #include "ppxnet/http_request.h"
-#include "ppxnet/ipaddress.h"
-#include "ppxnet/networkprotocoldef.h"
-#include "ppxnet/ping.h"
-#include "ppxnet/socket.h"
-#include "ppxnet/socketaddress.h"
-#include "ppxnet/overlappedsocket.h"
-#include "ppxnet/iocp.h"
-#include "ppxnet/iocpserver.h"
-
 
 
 #endif // !PPX_NET_H__
